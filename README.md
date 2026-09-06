@@ -6,7 +6,7 @@
 Descarga y transcribe los **anexos del Boletín Oficial de la República Argentina**.
 
 ```bash
-npx bora-anexos https://www.boletinoficial.gob.ar/detalleAviso/primera/346684/20260901
+npx github:nikitabystrykhclaude/bora-anexos https://www.boletinoficial.gob.ar/detalleAviso/primera/346684/20260901
 ```
 
 ```
@@ -16,7 +16,7 @@ BOLETIN OFICIAL REPUBLICA ARGENTINA - ANSES - Resolución 260/2026
   ...
 ```
 
-Sin dependencias. Node 18 o superior.
+Sin dependencias, sin instalar nada. Node 18 o superior.
 
 ---
 
@@ -46,7 +46,9 @@ Esta herramienta hace las dos cosas.
 ## Uso
 
 ```
-bora-anexos <url del aviso> [opciones]
+bora-anexos <url del aviso> [opciones]   # si lo instalaste
+# o, sin instalar:
+npx github:nikitabystrykhclaude/bora-anexos <url del aviso> [opciones]
 
   -o, --out <dir>   dónde escribir (por defecto: el directorio actual)
   -n, --num <n>     sólo ese anexo
@@ -61,7 +63,7 @@ Ejemplos:
 
 ```bash
 # Sólo el anexo con los montos de la AUH
-bora-anexos https://www.boletinoficial.gob.ar/detalleAviso/primera/346684/20260901 -n 5
+npx github:nikitabystrykhclaude/bora-anexos https://www.boletinoficial.gob.ar/detalleAviso/primera/346684/20260901 -n 5
 
 # Encadenado con otra cosa
 bora-anexos <url> --json | jq -r '.anexos[].texto'
@@ -70,6 +72,7 @@ bora-anexos <url> --json | jq -r '.anexos[].texto'
 Como biblioteca:
 
 ```js
+// npm install github:nikitabystrykhclaude/bora-anexos
 const { leerAviso } = require('bora-anexos');
 
 const aviso = await leerAviso('https://www.boletinoficial.gob.ar/detalleAviso/primera/346684/20260901');
@@ -102,7 +105,7 @@ que fija las tasas migratorias, es el caso típico: sus cuatro cuadros de tasas
 son imágenes en el cuerpo. Ahí `descubrir` falla con razón y lo que sirve es:
 
 ```bash
-bora-anexos https://www.boletinoficial.gob.ar/detalleAviso/primera/310125/20240705 --imagenes
+npx github:nikitabystrykhclaude/bora-anexos https://www.boletinoficial.gob.ar/detalleAviso/primera/310125/20240705 --imagenes
 ```
 
 ## Detalles que costaron tiempo
