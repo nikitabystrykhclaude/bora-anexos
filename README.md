@@ -133,7 +133,11 @@ depositados con DOI: <https://doi.org/10.5281/zenodo.22544071>.
 
 Si lo usás en un trabajo, el DOI apunta siempre a la última versión:
 
-
+```
+Bystrykh, N. (2026). bora-anexos: descarga y transcripción de los anexos del
+Boletín Oficial argentino [Software]. Zenodo.
+https://doi.org/10.5281/zenodo.22546926
+```
 
 ## Licencia
 
