@@ -40,11 +40,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Node 22.14 y npm 11.5.1 son el piso que pide trusted publishing.
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org
+
+      # Node 22 viene con npm 10, y trusted publishing necesita 11.5.1 o más:
+      # con la versión vieja el CLI ni siquiera intenta OIDC, cae a autenticarse
+      # con un token que no existe, y el registro responde 404 —que es como npm
+      # dice "no estás autenticado" y no lo que parece—. Pasó en el primer
+      # intento de este workflow.
+      - name: npm al día
+        run: |
+          npm install -g npm@^11
+          echo "node $(node --version), npm $(npm --version)"
 
       - name: Comprobar que la etiqueta y la versión coinciden
         if: github.event_name == 'release'
