@@ -1,13 +1,36 @@
 {
   "name": "bora-anexos",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Descarga y transcribe los anexos del Boletin Oficial de la Republica Argentina, que no son enlaces sino llamadas POST y vienen en PDF con fuentes de codificacion propia.",
   "main": "index.js",
-  "bin": { "bora-anexos": "bin/bora-anexos.js" },
-  "files": ["index.js", "bin/", "README.md", "LICENSE"],
-  "keywords": ["argentina", "boletin-oficial", "bora", "pdf", "anexos", "datos-abiertos", "scraping", "normativa"],
+  "bin": {
+    "bora-anexos": "bin/bora-anexos.js"
+  },
+  "files": [
+    "index.js",
+    "bin/",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "argentina",
+    "boletin-oficial",
+    "bora",
+    "pdf",
+    "anexos",
+    "datos-abiertos",
+    "scraping",
+    "normativa"
+  ],
   "license": "MIT",
-  "engines": { "node": ">=18" },
-  "repository": { "type": "git", "url": "git+https://github.com/nikitabystrykhclaude/bora-anexos.git" },
-  "scripts": { "prueba": "node prueba.js" }
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikitabystrykhclaude/bora-anexos.git"
+  },
+  "scripts": {
+    "prueba": "node prueba.js"
+  }
 }
