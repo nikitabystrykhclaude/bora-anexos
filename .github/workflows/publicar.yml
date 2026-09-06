@@ -1,0 +1,86 @@
+# Publicación en npm por trusted publishing (OIDC).
+#
+# Sin tokens y sin códigos de un solo uso: npm confía en este workflow concreto
+# de este repositorio concreto, y la autenticación es un token efímero firmado
+# que GitHub emite en el momento y que no se puede extraer ni reutilizar. Es lo
+# que npm recomienda desde que empezó a retirar los tokens que se saltean el
+# 2FA.
+#
+# Dispara con la publicación de un release, que es el mismo evento que escucha
+# Zenodo. Un solo `git tag vX.Y.Z && git push --tags` + release actualiza las
+# dos cosas.
+#
+# ANTES DE QUE ESTO FUNCIONE hay que configurarlo del lado de npm:
+#   npmjs.com -> el paquete -> Settings -> Trusted Publisher
+#   Proveedor: GitHub Actions
+#   Organización o usuario: nikitabystrykhclaude
+#   Repositorio: bora-anexos
+#   Workflow: publicar.yml
+# Mientras no esté configurado, el paso de publicar falla con un error de
+# autenticación. No rompe nada más.
+
+name: Publicar en npm
+
+on:
+  release:
+    types: [published]
+
+  # Por si hace falta reintentar sin crear otro release.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write # el token OIDC que reemplaza al de npm
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Node 22.14 y npm 11.5.1 son el piso que pide trusted publishing.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+
+      - name: Comprobar que la etiqueta y la versión coinciden
+        if: github.event_name == 'release'
+        run: |
+          ETIQUETA="${GITHUB_REF_NAME#v}"
+          VERSION=$(node -p "require('./package.json').version")
+          echo "etiqueta: $ETIQUETA   package.json: $VERSION"
+          if [ "$ETIQUETA" != "$VERSION" ]; then
+            echo "::error::La etiqueta $GITHUB_REF_NAME no coincide con la versión $VERSION de package.json."
+            echo "Publicar así dejaría el registro diciendo una cosa y el repositorio otra."
+            exit 1
+          fi
+
+      - name: Ver si esa versión ya está publicada
+        id: estado
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view "bora-anexos@$VERSION" version >/dev/null 2>&1; then
+            echo "La versión $VERSION ya está en el registro; no hay nada que hacer."
+            echo "publicar=no" >> "$GITHUB_OUTPUT"
+          else
+            echo "publicar=si" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Qué se subiría
+        if: steps.estado.outputs.publicar == 'si'
+        run: npm pack --dry-run
+
+      # La prueba va contra el Boletín Oficial de verdad, así que un tropiezo de
+      # red o una caída del sitio la hacen fallar sin que haya nada roto acá.
+      # Por eso informa pero no bloquea: la señal sirve, el bloqueo sería ruido.
+      - name: Prueba de humo (no bloquea)
+        if: steps.estado.outputs.publicar == 'si'
+        continue-on-error: true
+        run: node prueba.js
+
+      - name: Publicar
+        if: steps.estado.outputs.publicar == 'si'
+        run: npm publish --access public
