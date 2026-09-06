@@ -2,11 +2,12 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22546926.svg)](https://doi.org/10.5281/zenodo.22546926)
 [![MIT](https://img.shields.io/badge/licencia-MIT-blue.svg)](LICENSE)
+[![npm](https://img.shields.io/npm/v/bora-anexos.svg)](https://www.npmjs.com/package/bora-anexos)
 
 Descarga y transcribe los **anexos del Boletín Oficial de la República Argentina**.
 
 ```bash
-npx github:nikitabystrykhclaude/bora-anexos https://www.boletinoficial.gob.ar/detalleAviso/primera/346684/20260901
+npx bora-anexos https://www.boletinoficial.gob.ar/detalleAviso/primera/346684/20260901
 ```
 
 ```
@@ -46,9 +47,7 @@ Esta herramienta hace las dos cosas.
 ## Uso
 
 ```
-bora-anexos <url del aviso> [opciones]   # si lo instalaste
-# o, sin instalar:
-npx github:nikitabystrykhclaude/bora-anexos <url del aviso> [opciones]
+npx bora-anexos <url del aviso> [opciones]
 
   -o, --out <dir>   dónde escribir (por defecto: el directorio actual)
   -n, --num <n>     sólo ese anexo
@@ -63,7 +62,7 @@ Ejemplos:
 
 ```bash
 # Sólo el anexo con los montos de la AUH
-npx github:nikitabystrykhclaude/bora-anexos https://www.boletinoficial.gob.ar/detalleAviso/primera/346684/20260901 -n 5
+npx bora-anexos https://www.boletinoficial.gob.ar/detalleAviso/primera/346684/20260901 -n 5
 
 # Encadenado con otra cosa
 bora-anexos <url> --json | jq -r '.anexos[].texto'
@@ -72,7 +71,7 @@ bora-anexos <url> --json | jq -r '.anexos[].texto'
 Como biblioteca:
 
 ```js
-// npm install github:nikitabystrykhclaude/bora-anexos
+// npm install bora-anexos
 const { leerAviso } = require('bora-anexos');
 
 const aviso = await leerAviso('https://www.boletinoficial.gob.ar/detalleAviso/primera/346684/20260901');
@@ -105,7 +104,7 @@ que fija las tasas migratorias, es el caso típico: sus cuatro cuadros de tasas
 son imágenes en el cuerpo. Ahí `descubrir` falla con razón y lo que sirve es:
 
 ```bash
-npx github:nikitabystrykhclaude/bora-anexos https://www.boletinoficial.gob.ar/detalleAviso/primera/310125/20240705 --imagenes
+npx bora-anexos https://www.boletinoficial.gob.ar/detalleAviso/primera/310125/20240705 --imagenes
 ```
 
 ## Detalles que costaron tiempo
