@@ -1,5 +1,8 @@
 # bora-anexos
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22546926.svg)](https://doi.org/10.5281/zenodo.22546926)
+[![MIT](https://img.shields.io/badge/licencia-MIT-blue.svg)](LICENSE)
+
 Descarga y transcribe los **anexos del Boletín Oficial de la República Argentina**.
 
 ```bash
@@ -125,6 +128,12 @@ Salió de mantener [turnosytramites.com](https://turnosytramites.com), un sitio 
 guías de trámites que publica los montos del Estado argentino con la norma que
 fija cada cifra. Los datos, y las series mensuales que se arman con esto, están
 depositados con DOI: <https://doi.org/10.5281/zenodo.22544071>.
+
+## Cómo citar
+
+Si lo usás en un trabajo, el DOI apunta siempre a la última versión:
+
+
 
 ## Licencia
 
